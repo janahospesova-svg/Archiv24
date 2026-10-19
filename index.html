@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11131a">
+  <title>ARCHIV 24 — Eira Frostová</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #11131a;
+      color: #eee8df;
+      font-family: Georgia, serif;
+    }
+    header {
+      padding: 22px 16px;
+      text-align: center;
+      border-bottom: 1px solid #51404b;
+      letter-spacing: 3px;
+    }
+    header h1 { color: #d6b78a; margin: 0 0 8px; }
+    header p { color: #a9a3ad; font-size: 12px; }
+    main { max-width: 650px; margin: auto; padding: 20px 16px; }
+    .character {
+      text-align: center;
+      padding: 18px;
+      border: 1px solid #51404b;
+      border-radius: 14px;
+      background: #191b25;
+    }
+    .sigil { font-size: 42px; }
+    .character h2 { color: #a9d7f5; margin-bottom: 6px; }
+    .character p { color: #c0bac5; line-height: 1.5; }
+    #chat {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px 0;
+    }
+    .message {
+      padding: 14px;
+      border-radius: 12px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .eira {
+      background: #202633;
+      border: 1px solid #354458;
+    }
+    .player {
+      background: #382d35;
+      border: 1px solid #59414f;
+    }
+    .label {
+      display: block;
+      color: #a9d7f5;
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin-bottom: 7px;
+    }
+    .player .label { color: #e8b7c9; }
+    form { display: flex; gap: 8px; }
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 13px;
+      border-radius: 9px;
+      border: 1px solid #51404b;
+      background: #191b25;
+      color: white;
+      font-size: 16px;
+    }
+    button {
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 9px;
+      background: #a9d7f5;
+      color: #11131a;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:focus-visible, input:focus-visible {
+      outline: 2px solid #d6b78a;
+      outline-offset: 3px;
+    }
+    .note {
+      color: #938d98;
+      font: 12px Arial, sans-serif;
+      text-align: center;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ARCHIV 24</h1>
+    <div>TAJNÝ ZÁZNAM • Č. 001</div>
+    <p>PŘÍSTUP POVOLEN — STRÁŽKYNĚ ZIMY</p>
+  </header>
+
+  <main>
+    <section class="character">
+      <div class="sigil">❄</div>
+      <h2>Eira Frostová</h2>
+      <p>Strážkyně zimy a ochránkyně ledových pečetí.</p>
+      <p><i>„Ne každá pravda si zaslouží být objevena.
+      Ale každá lež zanechá stopu.“</i></p>
+    </section>
+
+    <section id="chat" aria-live="polite">
+      <div class="message eira">
+        <span class="label">EIRA FROSTOVÁ</span>
+        Jmenuji se Eira Frostová. Doufám, že ses
+        nepřišel ptát jen na jméno.
+
+        Kdo jsi ty a proč bych ti měla věřit?
+      </div>
+    </section>
+
+    <form id="chatForm">
+      <input id="question" placeholder="Napiš E iře zprávu…"
+        aria-label="Zpráva pro Eiru" autocomplete="off" required>
+      <button type="submit">Odeslat</button>
+    </form>
+
+    <p class="note">
+      TESTOVACÍ VERZE ARCHIVU 24<br>
+      Eira zatím používá ukázkové odpovědi.
+      Skutečná AI bude připojena později.
+    </p>
+  </main>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("question");
+
+    function addMessage(text, type, label) {
+      const message = document.createElement("div");
+      message.className = "message " + type;
+
+      const heading = document.createElement("span");
+      heading.className = "label";
+      heading.textContent = label;
+
+      const content = document.createElement("div");
+      content.textContent = text;
+
+      message.append(heading, content);
+      chat.appendChild(message);
+      message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function replyTo(question) {
+      const q = question.toLowerCase();
+
+      if (q.includes("jmenuješ") || q.includes("jméno")) {
+        return "Eira Frostová. Strážkyně zimy. Mé jméno snad v záznamech nechybí. Na rozdíl od některých jiných věcí.";
+      }
+      if (q.includes("pečeť") || q.includes("vzala")) {
+        return "Ledová pečeť jsem odnesla, abych ji ochránila. Vím, že jsem porušila pravidla. Než mě odsoudíš, zkus zjistit, proč jsem to udělala.";
+      }
+      if (q.includes("archivář")) {
+        return "Archivář uchovává záznamy. Ale řekni mi: pokud někdo může měnit historii, jak poznáš, že čteš pravdu?";
+      }
+      if (q.includes("morvendra")) {
+        return "Její jméno se objevuje v příliš mnoha záznamech. To samo o sobě nic nedokazuje. Hledej rozpory, ne nejčastěji opakovaná obvinění.";
+      }
+
+      return "To je zajímavá otázka. Nechci ti dát odpověď, kterou nemohu doložit. Porovnej nalezené záznamy a vrať se, až budeš mít další důkaz.";
+    }
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const question = input.value.trim();
+      if (!question) return;
+
+      addMessage(question, "player", "VYŠETŘOVATEL");
+      input.value = "";
+
+      addMessage(replyTo(question), "eira", "EIRA FROSTOVÁ");
+    });
+  </script>
+</body>
+</html>
